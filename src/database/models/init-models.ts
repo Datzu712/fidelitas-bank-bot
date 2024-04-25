@@ -12,6 +12,9 @@ export function initModels(sequelize: Sequelize) {
     const user = _user.initModel(sequelize);
     const wallet = _wallet.initModel(sequelize);
 
+    wallet.belongsTo(user, { as: 'user', foreignKey: 'user_id' });
+    user.hasMany(wallet, { as: 'wallets', foreignKey: 'user_id' });
+
     return {
         user: user,
         wallet: wallet,

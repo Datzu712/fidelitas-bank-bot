@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { wallet, walletId } from './wallet';
 
 export interface userAttributes {
     email: string;
@@ -20,6 +21,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
     created_at?: Date;
     updated_at?: Date;
     id!: string;
+
+    // user hasMany wallet via user_id
+    wallets!: wallet[];
+    getWallets!: Sequelize.HasManyGetAssociationsMixin<wallet>;
+    setWallets!: Sequelize.HasManySetAssociationsMixin<wallet, walletId>;
+    addWallet!: Sequelize.HasManyAddAssociationMixin<wallet, walletId>;
+    addWallets!: Sequelize.HasManyAddAssociationsMixin<wallet, walletId>;
+    createWallet!: Sequelize.HasManyCreateAssociationMixin<wallet>;
+    removeWallet!: Sequelize.HasManyRemoveAssociationMixin<wallet, walletId>;
+    removeWallets!: Sequelize.HasManyRemoveAssociationsMixin<wallet, walletId>;
+    hasWallet!: Sequelize.HasManyHasAssociationMixin<wallet, walletId>;
+    hasWallets!: Sequelize.HasManyHasAssociationsMixin<wallet, walletId>;
+    countWallets!: Sequelize.HasManyCountAssociationsMixin;
 
     static initModel(sequelize: Sequelize.Sequelize): typeof user {
         return user.init(
